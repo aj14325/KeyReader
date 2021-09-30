@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="magtek-scra-usb">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/magtek-scra-usb.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
