@@ -35,10 +35,10 @@ public class students {
         this.identification = iD;
     }
     public void setCheckIn(String timeA){
-        this.checkIn = timeA;
+       // this.checkIn = timeA;
     }
     public void setCheckOut(String timeB){
-        this.checkOut = timeB;
+       // this.checkOut = timeB;
     }
 
 }
