@@ -231,68 +231,49 @@ public class Driver extends JFrame
     {
         textArea.setText("");
     }
-    private class MagTekUSCRAEventHandler implements MagTekUSCRAEvent
-    {
-        public MagTekUSCRAEventHandler()
-        {
+    private class MagTekUSCRAEventHandler implements MagTekUSCRAEvent {
+        public MagTekUSCRAEventHandler() {
         }
 
 
         //-----------------------------------------
         //
-        public void onDataReceived(String data)
-        {
-            try
-            {
+        public void onDataReceived(String data) {
+            try {
                 printData();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
 
             }
         }
 
 
-        public void onError(int errorCode)
-        {
+        public void onError(int errorCode) {
             StringWriter stringWriter = new StringWriter();
             PrintWriter out = new PrintWriter(stringWriter);
-            try
-            {
+            try {
                 out.println("onError:" + errorCode);
                 appendMessage(stringWriter.toString());
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
 
             }
         }
 
-        public void onDeviceConnectionStateChanged(int stateCode)
-        {
+        public void onDeviceConnectionStateChanged(int stateCode) {
 
             StringWriter stringWriter = new StringWriter();
             PrintWriter out = new PrintWriter(stringWriter);
-            try
-            {
-                if(stateCode==0)
-                {
+            try {
+                if (stateCode == 0) {
                     out.println("Device State:Not Connected");
                     closeDevice();
-                }
-                else if(stateCode==1)
-                {
+                } else if (stateCode == 1) {
                     out.println("Device State:Connected");
-                }
-                else
-                {
+                } else {
                     out.println("Device State:Error");
                 }
                 appendMessage(stringWriter.toString());
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
 
             }
         }
