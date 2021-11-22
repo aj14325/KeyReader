@@ -1,34 +1,296 @@
-/*----------------------------------------------------------------------------*
- *                                                                            *
- *  Copyright (c) 2002, 2003 MagTek, Inc.  All Rights Reserved.               *
- *                                                                            *
- *----------------------------------------------------------------------------*/
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Driver {
+
+    private Label b3;
+    private static final ArrayList<Student> students = new ArrayList<Student>();
+    private static final ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+    private static final ArrayList<Course> courses = new ArrayList<Course>();
+    static int state = 0;
+    static String ID = "";
+    static JLabel statey;
+    static String fname;
+    static String lname;
+    static String confirmstr;
+    static Timer timer;
+    static JTextField text;
+    static JLabel label;
+    static JButton checkIn;
+    static JButton checkOut;
+    static JLabel confirm;
+
+    public static void main(String[] arguments) {
+        timer = new Timer(15000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                state = 0;
+                label.setText("Welcome to the Math Success Center. Please enter your student ID (Be sure to put it in correctly or you will break everything).");
+                confirm.setText("");
+                checkIn.setText("Check In");
+                checkOut.setText("Check Out");
+                fname = ("");
+                lname = ("");
+                ID = ("");
+                text.setText("");
+            }
+        });
+
+        JFrame frame = new JFrame("Keycard Reader - Math Success Center");
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        Container content = frame.getContentPane();
+        SpringLayout layout = new SpringLayout();
+        frame.setLayout(layout);
+
+        confirm = new JLabel("");
+        confirm.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+        statey = new JLabel("State 0");
+        statey.setFont(new Font("Comic Sans MS", Font.PLAIN, 0));
+        checkOut = new JButton("Check Out");
+        checkOut.setPreferredSize(new Dimension(150, 50));
+        checkOut.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+        checkIn = new JButton("Check In");
+        checkIn.setPreferredSize(new Dimension(150, 50));
+        checkIn.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+        text = new JTextField();
+        text.setPreferredSize(new Dimension(200, 50));
+        label = new JLabel("Welcome to the Math Success Center. Please enter your student ID (Be sure to put it in correctly or you will break everything).");
+        label.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+
+        frame.add(checkOut);
+        frame.add(checkIn);
+        frame.add(text);
+        frame.add(label);
+        frame.add(statey);
+        frame.add(confirm);
+
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, checkOut, 250, SpringLayout.HORIZONTAL_CENTER, content);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, checkOut, 0, SpringLayout.VERTICAL_CENTER, content);
+
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, checkIn, -250, SpringLayout.HORIZONTAL_CENTER, content);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, checkIn, 0, SpringLayout.VERTICAL_CENTER, content);
+
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, text, 0, SpringLayout.HORIZONTAL_CENTER, content);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, text, 0, SpringLayout.VERTICAL_CENTER, content);
+
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, label, 0, SpringLayout.HORIZONTAL_CENTER, content);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, label, -100, SpringLayout.VERTICAL_CENTER, content);
+
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, statey, 450, SpringLayout.HORIZONTAL_CENTER, content);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, statey, 0, SpringLayout.VERTICAL_CENTER, content);
+
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, confirm, 0, SpringLayout.HORIZONTAL_CENTER, content);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, confirm, 100, SpringLayout.VERTICAL_CENTER, content);
 
 
-import  java.awt.*;
+        checkIn.addActionListener(new ActionListener() { //this is also the back button
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(state > 0) {
+                    retreat();
+                }else{
+                    advance();
+                }
+
+
+                timer.restart();
+                updateState();
+            }
+
+        });
+
+        checkOut.addActionListener(new ActionListener() { // this is also the next button
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(state > 0) {
+                    advance();
+                }else{
+                    retreat();
+                }
+                updateState();
+                timer.restart();
+            }
+        });
+        //text.addActionListener();
+
+        text.addKeyListener(new CustomKeyListener()) ;
+
+        frame.setVisible(true);
+
+    }
+
+    public static void updateState() {
+        statey.setText("State: " + state);
+    }
+
+    public static void retreat(){ // The Rabbit is coming!
+        if (state == 0) {
+
+
+
+        } else if (state == 1) {
+            ID = "";
+
+            text.setText("");
+            checkIn.setText("Check In");
+            checkOut.setText("Check Out");
+            label.setText("Welcome to the Math Success Center. Please enter your student ID (Be sure to put it in correctly or you will break everything).");
+            state--;
+        } else if (state == 2) {
+            text.setText("");
+            label.setText("ID not found, create a new profile. Enter your ID again.");
+            state--;
+        } else if (state == 3) {
+            text.setText("");
+            label.setText("Enter your first name.");
+            fname = ("");
+            state--;
+        } else if (state == 4) {
+            text.setText("");
+            label.setText("Enter your last name.");
+            lname = ("");
+            confirm.setText("");
+            state--;
+        }
+    }
+
+    public static void Check(){
+
+        //TODO if they need to be checked in, check them in, if they need to be checked out, check them out
+
+    }
+
+    public static void Checkin(){
+
+    }
+    public static void Checkout(){
+
+    }
+
+    public static void GenerateReports(){
+
+    }
+
+    public static void advance() {
+        if (state == 0) {
+            if (text.getText().length() != 9) {
+                label.setText("Please enter a valid ID.");
+
+            } else {
+                Boolean b = true;
+                ID = text.getText();
+                for (int i = 0; i < students.size(); i++) {
+                    if (students.get(i).identification == ID) {
+                        label.setText("You entered your ID.");
+                        text.setText("");
+                        b = false;
+                    }
+
+                    //actually check the user in (this should probably be a function)
+
+                }
+                if (b) {
+                    state++;
+                    label.setText("ID not found, create a new profile. Enter your ID again.");
+                    text.setText("");
+                    checkIn.setText("Back");
+                    checkOut.setText("Next");
+
+                }
+            }
+        } else if (state == 1) {
+            if (text.getText().length() != 9) {
+                text.setText("");
+                label.setText("Please enter your ID again.");
+
+            } else {
+                if (text.getText().compareTo(ID) != 0) {
+                    label.setText("This is different than your original ID.");
+                    text.setText("");
+                } else {
+                    label.setText("Enter your first name.");
+                    text.setText("");
+                    state++;
+                }
+            }
+        } else if (state == 2) {
+            if (text.getText().length() == 0) {
+                label.setText("Please enter your first name.");
+            } else {
+                fname = text.getText();
+                label.setText("Enter your last name.");
+                text.setText("");
+                state++;
+            }
+        } else if (state == 3) {
+            if (text.getText().length() == 0) {
+                label.setText("Please enter your last name.");
+            } else {
+                state++;
+                lname = text.getText();
+                label.setText("Please confirm that your information is correct. If it is, click next. If it isn't, go back and fix any mistakes.");
+                text.setText("");
+                confirm.setText("ID: " + ID + "      First Name: " + fname + "      Last Name: " + lname);
+            }
+        } else if (state == 4) {
+            state = 0;
+            label.setText("Welcome to the Math Success Center. Please enter your student ID (Be sure to put it in correctly or you will break everything).");
+            confirm.setText("");
+            checkIn.setText("Check In");
+            checkOut.setText("Check Out");
+            fname = ("");
+            lname = ("");
+            ID = ("");
+            text.setText("");
+            //actaully check this person in and then clear
+        }
+    }
+    static class CustomKeyListener implements KeyListener{
+
+        public void keyTyped(KeyEvent e) {
+        }
+        public void keyPressed(KeyEvent e) {
+
+        }
+        public void keyReleased(KeyEvent e) {
+            timer.restart();
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                advance();
+            }
+        }
+    }
+
+
+
+
+
+}
+
+
+/*import  java.awt.*;
 import  java.awt.event.*;
 import  java.io.*;
 import  javax.swing.*;
 import  com.magtek.windows.scra.usb.*;
-//import  javax.swing.event.*;
+import  javax.swing.event.*;
 
 
-//import  com.magtek.msr;
+import  com.magtek.msr;
 
-/**
- *  SwipeReaderControlPanel is a more sophisticated test program that
- *  uses a simple Swing GUI to test various event-control settings and
- *  see the output of parsed data and errors.
- *
- *  @author <a href="mailto:djacobs@modelobjects.com">Dan Jacobs</a> of
- *          <a href="http://www.modelobjects.com">ModelObjects Group</a>,
- */
+
+
+ @author <a href="mailto:djacobs@modelobjects.com">Dan Jacobs</a> of
+           <a href="http://www.modelobjects.com">ModelObjects Group</a>,
+
 public class Driver extends JFrame
         implements ActionListener, Runnable
 {
-    /**
-     *
-     */
+
+
     private static final long serialVersionUID = 1L;
     public static void main(String[] args)
     {
@@ -231,49 +493,68 @@ public class Driver extends JFrame
     {
         textArea.setText("");
     }
-    private class MagTekUSCRAEventHandler implements MagTekUSCRAEvent {
-        public MagTekUSCRAEventHandler() {
+    private class MagTekUSCRAEventHandler implements MagTekUSCRAEvent
+    {
+        public MagTekUSCRAEventHandler()
+        {
         }
 
 
         //-----------------------------------------
         //
-        public void onDataReceived(String data) {
-            try {
+        public void onDataReceived(String data)
+        {
+            try
+            {
                 printData();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
 
             }
         }
 
 
-        public void onError(int errorCode) {
+        public void onError(int errorCode)
+        {
             StringWriter stringWriter = new StringWriter();
             PrintWriter out = new PrintWriter(stringWriter);
-            try {
+            try
+            {
                 out.println("onError:" + errorCode);
                 appendMessage(stringWriter.toString());
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
 
             }
         }
 
-        public void onDeviceConnectionStateChanged(int stateCode) {
+        public void onDeviceConnectionStateChanged(int stateCode)
+        {
 
             StringWriter stringWriter = new StringWriter();
             PrintWriter out = new PrintWriter(stringWriter);
-            try {
-                if (stateCode == 0) {
+            try
+            {
+                if(stateCode==0)
+                {
                     out.println("Device State:Not Connected");
                     closeDevice();
-                } else if (stateCode == 1) {
+                }
+                else if(stateCode==1)
+                {
                     out.println("Device State:Connected");
-                } else {
+                }
+                else
+                {
                     out.println("Device State:Error");
                 }
                 appendMessage(stringWriter.toString());
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
 
             }
         }
@@ -416,4 +697,4 @@ public class Driver extends JFrame
 //        }
 //
 //    }
-//}
+//} */
