@@ -92,11 +92,9 @@ public class Driver {
 
                 if(state > 0) {
                     retreat();
-                }else{
+                }else {
                     advance();
                 }
-
-
                 timer.restart();
                 updateState();
             }
@@ -129,8 +127,6 @@ public class Driver {
 
     public static void retreat(){ // The Rabbit is coming!
         if (state == 0) {
-
-
 
         } else if (state == 1) {
             ID = "";
@@ -334,7 +330,7 @@ public class Driver extends JFrame
         textArea.setEditable(false);
         textArea.setFont(new Font("MonoSpaced", Font.PLAIN, 12));
 
-        openButton    = new JButton("Open");
+        checkinButton    = new JButton("Checkin");
         closeButton   = new JButton("Close");
         clearButton   = new JButton("Clear");
 
@@ -578,7 +574,7 @@ public class Driver extends JFrame
 
     JTextArea     textArea;
 
-    JButton       openButton;
+    JButton       checkinButton;
     JButton       closeButton;
     JButton       clearButton;
     Timer         updateTimer;

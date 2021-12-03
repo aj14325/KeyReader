@@ -20,5 +20,7 @@
     </orderEntry>
     <orderEntry type="library" name="System32" level="project" />
     <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="library" name="MigLayout" level="project" />
+    <orderEntry type="library" name="javax.mail" level="project" />
   </component>
 </module>
