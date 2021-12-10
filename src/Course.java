@@ -5,7 +5,6 @@ public class Course {
     public String Name;
     private ArrayList<Student> students = new ArrayList<Student>(); //Array list for Student
     private ArrayList<Teacher> teachers = new ArrayList<Teacher>(); //Array list for Teacher
-    private int Time, Hours, Minutes, Seconds;
 
 
     public static void main(String args[]) {
@@ -15,6 +14,7 @@ public class Course {
         Student stu1 = new Student("Aaron", "Johnson", "00000000");
         Student stu2 = new Student("Justin", "Ahlers", "00000001");
         Teacher t = new Teacher();
+
 
 
         c.add(stu1);
@@ -32,6 +32,7 @@ public class Course {
         ArrayList<Teacher> teach = c.getTeachers();
         for( Teacher elem : teach){
             System.out.println("FOO!");
+
         }
 
 
@@ -61,34 +62,15 @@ public class Course {
         teachers.remove(t);
     }
 
+
     public ArrayList<Student> getStudents(){
         return students;
     }
     public ArrayList<Teacher> getTeachers() {
         return teachers;
-    }
-    public int getTime() {
-        return (int) Time;
-    }
-    public void setTime() {
 
     }
-    public int getHours() {
-        return (int) Hours;
-    }
-    public void setHours() {
 
-    }
-    public int getMinutes() {
-        return (int) Minutes;
-    }
-    public void setMinutes() {
 
-    }
-    public int getSeconds() {
-        return (int) Seconds;
-    }
-    public void setSeconds() {
 
-    }
 }

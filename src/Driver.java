@@ -154,9 +154,22 @@ public class Driver {
         }
     }
 
-    public static void Check(){
+    public static Student find(String ID){
+
+        for(Student s : students){
+            if(s.getIdentification() == "ID"){
+                return s;
+            }
+        }
+        return null;
+    }
+
+
+    public static void Check(Student s){
 
         //TODO if they need to be checked in, check them in, if they need to be checked out, check them out
+
+
 
     }
 
@@ -180,7 +193,7 @@ public class Driver {
                 Boolean b = true;
                 ID = text.getText();
                 for (int i = 0; i < students.size(); i++) {
-                    if (students.get(i).identification == ID) {
+                    if (students.get(i).getIdentification() == ID) {
                         label.setText("You entered your ID.");
                         text.setText("");
                         b = false;

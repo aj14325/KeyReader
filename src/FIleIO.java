@@ -1,20 +1,89 @@
 import java.util.ArrayList;
+import java.io.*;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 
 public class FIleIO {
 
-    public ArrayList<Student> getStudents(String path){
-        return null;
-    }
-    public ArrayList<Teacher> getTeachers(String path){
-        return null;
-    }
-    public ArrayList<Course> getClasses(String path){
-        return null;
-    }
-    public void printRawData(ArrayList<Student> students, ArrayList<Teacher> teachers,ArrayList<Course> courses, String path){
+    String path = "temp.txt";
 
+    public static ArrayList<Student> getStudents(String path) {
+        return null;
     }
-    public void printReports(ArrayList<Student> students, ArrayList<Teacher> teachers,ArrayList<Course> courses,String path){
+
+    public static ArrayList<Teacher> getTeachers(String path) {
+        return null;
+    }
+
+    public static ArrayList<Course> getClasses(String path) {
+        return null;
+    }
+
+    public static void main(String args[]) {
+        //Gets date and time
+        Student s = new Student("name","lastname","ID");
+        Course c = new Course("math");
+        ArrayList<Course> ac = new ArrayList<Course>();
+        ArrayList<Student> as = new ArrayList<Student>();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+
+        ac.add(c);
+        s.setCourses(ac);
+        as.add(s);
+
+        s = new Student("aaron","lastname","ID");
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCheckIn();
+        s.setCheckOut();
+        s.setCourses(ac);
+        as.add(s);
+        as.add(s);
+        printRawData(as,null,null,"temp.txt");
+    }
+
+    public static void printRawData(ArrayList<Student> students, ArrayList<Teacher> teachers, ArrayList<Course> courses, String path) {
+
+        try {
+
+            FileWriter fo = new FileWriter(path);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            for (int i = 0; i < students.size(); i++) {
+                Student s = students.get(i);
+                fo.write(s.getFirstName() + ", " + s.getLastName() + " ," + s.getIdentification() + " ," + s.getCourses().get(0).toString() + "\n");
+                ArrayList<LocalDateTime> log =  s.getLog();
+                for (int j = 0; j < log.size(); j++) {
+                    fo.write(dtf.format(log.get(j)) +"\n");
+                }
+            }
+            fo.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static void printReports(ArrayList<Student> students, ArrayList<Teacher> teachers, ArrayList<Course> courses, String path) {
 
     }
 
