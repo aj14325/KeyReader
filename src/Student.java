@@ -1,8 +1,6 @@
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.lang.reflect.Array;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.*;
 import java.util.*;
@@ -98,23 +96,48 @@ public class Student {
     public double getAverageTime() {
 
         long difference_In_Time = 0;
-
+        long checkins = 0;
         for (int i = 0; i < this.log.size(); i += 2) {
 
             LocalDateTime d1 = log.get(i + 1);
             LocalDateTime d2 = log.get(i);
 
-            if(d1.isEqual(LocalDateTime.of(d2.toLocalDate(),LocalTime.MIDNIGHT ))){
+            if (d1.isEqual(LocalDateTime.of(d2.toLocalDate(), LocalTime.MIDNIGHT))) {
                 continue;
             }
-
-            += ChronoUnit.MILLIS.between(d1, d2);
+            checkins++;
+            difference_In_Time += ChronoUnit.MILLIS.between(d1, d2);
         }
 
+        return (double)difference_In_Time/checkins;
 
     }
 
     public ArrayList<Double> getAverageTimeByDay() {
+
+        List<Long> difference_In_Time =  new ArrayList<Long>();
+        for(int i = 0; i < 7; i++)
+            difference_In_Time.add(0L);
+        List<Long> checkins =new ArrayList<Long>();
+        for(int i = 0; i < 7; i++)
+            difference_In_Time.add(0L);
+        for (int i = 0; i < this.log.size(); i += 2) {
+
+            LocalDateTime d1 = log.get(i + 1);
+            LocalDateTime d2 = log.get(i);
+
+            if (d1.isEqual(LocalDateTime.of(d2.toLocalDate(), LocalTime.MIDNIGHT))) {
+                continue;
+            }
+            checkins.set(DayOfWeek.from(d2).ordinal(),checkins.get(DayOfWeek.from(d2).ordinal()) + 1);
+            difference_In_Time.set(DayOfWeek.from(d2).ordinal(), difference_In_Time.get(DayOfWeek.from(d2).ordinal()) +MILLIS.between(d1,d2));
+        }
+
+        ArrayList<Double> answer = new ArrayList<Double>();
+        for(int i = 0; i < 7; i++)
+            answer.add((double)difference_In_Time.get(i) / checkins.get(i));
+        return answer;
+
 
     }
 

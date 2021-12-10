@@ -85,6 +85,14 @@ public class FIleIO {
 
     public static void printReports(ArrayList<Student> students, ArrayList<Teacher> teachers, ArrayList<Course> courses, String path) {
 
+        ArrayList<String> list = new ArrayList<String>();
+
+        for(int i = 0; i < students.size(); i++){
+            Student s = students.get(i);
+            list.add(s.getLastName() + "," + s.getFirstName() + " " + s.getAverageTime());
+        }
+
+
     }
 
 

@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
-import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Driver {
@@ -194,6 +194,10 @@ public class Driver {
     }
 
     public static void GenerateReports() {
+
+        FileIO f = new FileIO();
+        String path = LocalDateTime.now().toString() + "_Report.csv";
+        FileIO.printReports(students,teachers,courses,path);
 
     }
 
