@@ -179,26 +179,52 @@ public class Driver {
     }
 
 
-    public static void Check() {
+    public static void Check(String ID, String fName, String lName, String course) {
 
         //TODO if they need to be checked in, check them in, if they need to be checked out, check them out
 
-    }
-
-    public static void Checkin() {
 
     }
 
-    public static void Checkout() {
+    public static void CheckIn(String ID, String fName, String lName, String course) {
+
+        for (int i = 0; i < students.size(); i++) {
+            Student s = students.get(i);
+            if (s.getIdentification().compareTo(ID) == 0) {
+                if (s.getLastCheckoutTime().isBefore(LocalDateTime.now())) {
+                    s.setCheckIn();
+                    return;
+                }else{
+                    //TODO NOTIFICATION!
+                    return;
+                }
+            }
+        }
+
+        Student s = new Student(fName,lName,ID);
+        Course c = new Course("course");
+        ArrayList<Course> cl = new ArrayList<Course>();
+        c.add(s);
+        cl.add(c);
+        s.setCourses(cl);
+        students.add(s);
+        courses.add(c);
 
     }
 
-    public static void GenerateReports() {
-
-        FileIO f = new FileIO();
-        String path = LocalDateTime.now().toString() + "_Report.csv";
-        FileIO.printReports(students,teachers,courses,path);
-
+    public static void Checkout(String ID) {
+        for (int i = 0; i < students.size(); i++) {
+            Student s = students.get(i);
+            if (s.getIdentification().compareTo(ID) == 0) {
+                if (s.getLastCheckoutTime().isAfter(LocalDateTime.now())) {
+                    s.setCheckOut();
+                    return;
+                }else{
+                    //TODO NOTIFICATION!
+                    return;
+                }
+            }
+        }
     }
 
     public static void advance() {
@@ -224,15 +250,14 @@ public class Driver {
                 Boolean b = true;
                 ID = text.getText();
                 for (int i = 0; i < students.size(); i++) {
-                    if (students.get(i).identification == ID) {
+                    if (students.get(i).getIdentification() == ID) {
                         label.setText("Welcome " + fname + ".");
                         text.setText("");
+                        CheckIn(ID,fname,lname,studentCourse);
                         b = false;
                     }
-
-                    //actually check the user in (this should probably be a function)
-
                 }
+
                 if (b) {
                     state++;
                     label.setText("ID not found, create a new profile. Enter your ID again.");
@@ -300,12 +325,16 @@ public class Driver {
                 label.setText("You're in admin mode.");
                 checkIn.setText("Back");
                 checkOut.setText("Generate Reports");
+                state++;
                 return;
             } else {
                 label.setText("Incorrect password; Enter the admin password");
                 state = 9;
 
             }
+        }else if(state == 10){
+            String path = LocalDateTime.now().toString() + "_Report.csv";
+            FileIO.printReports(students, teachers, courses, path);
         }
 
     }

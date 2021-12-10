@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.io.*;
+import java.io.File.*;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 
-public class FIleIO {
+public class FileIO {
 
     String path = "temp.txt";
 
@@ -85,13 +86,29 @@ public class FIleIO {
 
     public static void printReports(ArrayList<Student> students, ArrayList<Teacher> teachers, ArrayList<Course> courses, String path) {
 
-        ArrayList<String> list = new ArrayList<String>();
+        File f = new File(path);
 
-        for(int i = 0; i < students.size(); i++){
-            Student s = students.get(i);
-            list.add(s.getLastName() + "," + s.getFirstName() + " " + s.getAverageTime());
+        int i = 1;
+        while(f.exists()){
+            path = path + "_" + i++;
+            f = new File(path);
         }
 
+        ArrayList<String> list = new ArrayList<String>();
+
+        for( i = 0; i < students.size(); i++){
+            Student s = students.get(i);
+            list.add(s.getLastName() + "," + s.getFirstName() + ", " + s.getAverageTime());
+        }
+
+        try{
+            FileWriter fo = new FileWriter(path);
+            for (i = 0; i < list.size(); i++) {
+                fo.write(list.get(i));
+            }
+        }catch(Exception e){
+
+        }
 
     }
 
